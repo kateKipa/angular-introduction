@@ -10,7 +10,7 @@ import { ListGroupMenuComponent } from './components/list-group-menu/list-group-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ListGroupMenuComponent, RouterOutlet],
+  imports: [ListGroupMenuComponent, RouterOutlet, RouterLink],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
