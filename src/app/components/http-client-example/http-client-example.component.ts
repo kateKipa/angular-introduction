@@ -41,4 +41,12 @@ export class HttpClientExampleComponent implements OnInit {
       this.chuckNorrisJoke = data.value
     })
   }
+
+  // refreshChuckNorrisJoke() {
+  //   this.jokesService
+  //     .getChuckNorrisJoke()
+  //     .subscribe((data: { value: string }) => {
+  //     this.chuckNorrisJoke = data.value
+  //   })
+  // }       //αυτο αν δεν ειχα ορισει interface
 }
