@@ -32,11 +32,15 @@
         <mat-label>
             Email
         </mat-label>
-        <input matInput type="text" formControlName="email">
+        <input matInput type="text" (blur)="check_duplicate_email()" formControlName="email">
+        @if(form.get('email').hasError("duplicateEmail")) {
+        <mat-error>Email is already registered</mat-error>
+        } @else {
         @if(form.get('email').invalid && form.get('email').touched) {
         <mat-error>
             Email is missing or invalid
         </mat-error>
+        }
         }
     </mat-form-field>
 
@@ -75,19 +79,15 @@
 
 } @else {
     @if (registrationStatus.success) {
-        <div class="alert alert-success mt-2 w-50">
-            <strong>Success:</strong> {{registrationStatus.message}}
-        </div>
+<div class="alert alert-success mt-2 w-50">
+    <strong>Success:</strong> {{registrationStatus.message}}
+</div>
     }@else {
-        <div class="alert alert-danger mt-2 w50">
-            <strong>Error:</strong> {{registrationStatus.message}}
-        </div>
+<div class="alert alert-danger mt-2 w50">
+    <strong>Error:</strong> {{registrationStatus.message}}
+</div>
     }
-    <button
-    mat-flat-button
-    color="primary"
-    class="mt-2"
-    (click)="registerAnotherUser()">
-        Register another user
-    </button>
+<button mat-flat-button color="primary" class="mt-2" (click)="registerAnotherUser()">
+    Register another user
+</button>
 }

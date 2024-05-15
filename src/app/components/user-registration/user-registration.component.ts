@@ -16,7 +16,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class UserRegistrationComponent {
 
-  userService = inject(UserService)
+  userService = inject(UserService)                      //Με αυτον τον τροπο εισαγω το UserService μεσα στο component
 
   registrationStatus: {success: boolean, message:string} = {      //Δημιουργω τη μεταβλητη κ την αρχικοποιώ
     success: false,
@@ -56,7 +56,7 @@ export class UserRegistrationComponent {
         //const message = response.error.msg
         //console.log('Error registering user:', message)
         //this.registrationStatus = {success: false, message}
-        
+
         console.log('Error registering user:', response.error.msg)
         this.registrationStatus = {success: false, message: response.error.msg }
       }
@@ -71,5 +71,21 @@ export class UserRegistrationComponent {
     }
   }
 
+
+  check_duplicate_email() {
+    const email = this.form.get('email').value
+
+    this.userService.check_duplicate_email(email).subscribe({
+      next: (response) => {
+        console.log(response.msg)
+        this.form.get('email').setErrors(null)
+      },
+      error: (response) => {
+        const message = response.error.msg
+        console.log(message)
+        this.form.get('email').setErrors({duplicateEmail: true})
+      }
+    })
+  }
 
 }
