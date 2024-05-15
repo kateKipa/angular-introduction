@@ -6,7 +6,7 @@ import { User } from '../interfaces/user';
 const API_URL = `${environment.apiURL}/user`
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root'                  //Για να μπορω να χρησιμοποιησω κ αλλου το service
 })
 export class UserService {
 

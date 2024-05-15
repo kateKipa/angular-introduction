@@ -4,3 +4,5 @@ export interface User {
     email: string
     password: string
 }
+
+//To σχημα των δεδομενων που θα στειλω στο backend
