@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, effect, inject, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Credentials, LoggedInUser, User } from '../interfaces/user';
+import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 const API_URL = `${environment.apiURL}/user`
 
@@ -10,20 +12,32 @@ const API_URL = `${environment.apiURL}/user`
 })
 export class UserService {
 
-  // constructor() { }
-
   http: HttpClient = inject(HttpClient)
 
-  user = signal<LoggedInUser | null>(null)
+  router: Router = inject(Router)
+
+  user = signal<LoggedInUser | null>(null)          //το user ειναι signal και το καλώ σαν function
 
   constructor() {
+
+    const access_token = localStorage.getItem('access_token')
+    
+    if (access_token) {
+      const decodedTokenSubject = jwtDecode(access_token).sub as unknown as LoggedInUser
+      this.user.set({
+        fullname: decodedTokenSubject.fullname,
+        email: decodedTokenSubject.email
+      })
+    }
+
     effect(() => {
       if (this.user()) {
         console.log('User loggedin', this.user().fullname)
       } else {
         console.log('No user logged In')
       }
-    })
+    })              //callback που αντιδρα στις αλλαγες του signal
+                    //o constructor καλειται την πρωτη φορα που κανω inject το UserService γιατι το service γινεται initialize την πρωτη φορα που το καλω
   }
 
   registerUser(user: User) {
@@ -39,4 +53,10 @@ export class UserService {
     return this.http.post<{access_token: string}>(`${API_URL}/login`, credentials)
   }
 
+
+  logoutUser() {
+    this.user.set(null)
+    localStorage.removeItem('access_token')
+    this.router.navigate(['login'])
+  }
 }

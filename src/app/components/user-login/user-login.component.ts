@@ -16,7 +16,7 @@ export class UserLoginComponent {
 
   userService = inject(UserService)
 
-  router = inject(Router)
+  router = inject(Router)     //κανω inject το Router γιατι θα κανω navigate
 
   invalidLogin = false
   
